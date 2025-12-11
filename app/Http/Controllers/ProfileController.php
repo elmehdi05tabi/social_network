@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProfileRequest;
 use App\Models\Profile;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
@@ -12,7 +15,8 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        //
+        $profiles = Profile::paginate(9) ; 
+        return view("profiles.index",compact('profiles')) ; 
     }
 
     /**
@@ -20,15 +24,22 @@ class ProfileController extends Controller
      */
     public function create()
     {
-        //
+        return view('profiles.creat');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProfileRequest $request,ImageService $imageService)
     {
-        //
+        $formField = $request->validated() ; 
+        // hash password 
+        $formField['password'] = Hash::make($formField['password']) ;
+        // for image 
+        $formField['image'] = $imageService->upload($request->file('image')) ; 
+        Profile::create($formField) ;
+        $profiles = Profile::paginate(9) ;
+        return to_route('profiles.index',compact('profiles'))->with('success','Profile Is Good Created') ; 
     }
 
     /**
@@ -36,7 +47,7 @@ class ProfileController extends Controller
      */
     public function show(Profile $profile)
     {
-        //
+        return view('profiles.show',compact('profile')) ; 
     }
 
     /**
@@ -44,15 +55,20 @@ class ProfileController extends Controller
      */
     public function edit(Profile $profile)
     {
-        //
+        return view('profiles.edit',compact('profile')) ;
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Profile $profile)
+    public function update(ProfileRequest $request, Profile $profile ,ImageService $imageService)
     {
-        //
+        $formField = $request->validated() ; 
+        $formField['password'] = Hash::make($formField['password']) ; 
+        $formField['image'] = $imageService->upload($request->file('image')) ; 
+        // update 
+        $profile->fill($formField)->save();
+        return to_route('profiles.index')->with('success','Profile is Updated') ; 
     }
 
     /**
@@ -60,6 +76,8 @@ class ProfileController extends Controller
      */
     public function destroy(Profile $profile)
     {
-        //
+        // dd($profile) ;
+        $profile->delete() ; 
+        return to_route('profiles.index')->with('success','Profile Deleted') ; 
     }
 }
