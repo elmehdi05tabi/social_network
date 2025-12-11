@@ -17,6 +17,8 @@ nav {
     padding: 15px 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     position: sticky;
+    display: flex;
+    justify-content: space-between;
     top: 0;
     z-index: 100;
 }

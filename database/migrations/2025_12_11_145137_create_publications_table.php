@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('profiles', function (Blueprint $table) {
+        Schema::create('publications', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name',100) ; 
-            $table->string('last_name',100) ; 
-            $table->string('email') ; 
-            $table->string('bio') ;
-            $table->string('password') ; 
+            $table->string('title') ; 
+            $table->string('body') ; 
+            $table->string('image') ; 
+            $table->unsignedBigInteger('profile_id') ; 
+            $table->foreign('profile_id')->references('id')->on('profiles')->cascadeOnDelete() ;
             $table->timestamps();
-            $table->rememberToken() ; 
         });
     }
 
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('profiles');
+        Schema::dropIfExists('publications');
     }
 };

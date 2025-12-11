@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PublicationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,3 +21,7 @@ use Illuminate\Support\Facades\Route;
 // Route::get('profile/create',[ProfileController::class,'create'])->name('profile.create') ;
 // Route::post('profile/store',[ProfileController::class,'store'])->name('profile.store');
 Route::resource('profiles',ProfileController::class) ;
+Route::resource('publications',PublicationController::class)  ; 
+Route::get('/login',[LoginController::class,'show'])->name('login.show'); 
+Route::post('/login',[LoginController::class,'login'])->name('login'); 
+Route::get('/logout',[LoginController::class,'logout'])->name('logout') ; 
