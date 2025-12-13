@@ -6,4 +6,11 @@
         <p>{{$profile->bio}}</p>
         <span>Email:{{$profile->email}}</span>
     </div>
+    <hr>
+    <div class="publications-profile">
+        <h3>{{$profile->first_name." ".$profile->last_name}} Publications</h3>
+        @foreach ($profile->publications as $publication )
+            <x-publication :publication="$publication" :isAdmin="auth()->user()->id==$publication->profile_id" />
+        @endforeach
+    </div>
 </x-master>

@@ -13,6 +13,8 @@
     </header>
     @include('parties.flashbag')
     <section>
+        <h2>{{$title}}</h2>
+        <hr>
         {{$slot}}
     </section>
     @include('parties.footer')

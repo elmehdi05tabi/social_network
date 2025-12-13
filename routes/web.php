@@ -16,10 +16,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/',[ProfileController::class,'index'])->name('profile.index');
-// Route::get('/profile/{profile}/edit',[ProfileController::class,'edit'])->name('profile.edit') ;
-// Route::get('profile/create',[ProfileController::class,'create'])->name('profile.create') ;
-// Route::post('profile/store',[ProfileController::class,'store'])->name('profile.store');
 Route::resource('profiles',ProfileController::class) ;
 Route::resource('publications',PublicationController::class)  ; 
 Route::get('/login',[LoginController::class,'show'])->name('login.show'); 

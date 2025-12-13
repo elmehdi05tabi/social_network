@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Profile extends Model
 {
@@ -16,4 +17,7 @@ class Profile extends Model
         'image',
         'password'
     ];
+    public function publications(): HasMany {
+        return $this->hasMany(Publication::class,'profile_id') ; 
+    }
 }

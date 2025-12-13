@@ -54,6 +54,10 @@ section {
     margin: 40px auto;
     padding: 20px;
 }
+section h2 {
+    color: #2d2d2d;
+    margin-bottom: 3rem;
+}
 
 /* ------------------------------------- */
 /* FOOTER                                 */
@@ -371,4 +375,134 @@ img.profile-info-img {
     transform: translateY(-3px);
     transition: 0.3s ease;
     box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+}
+/* ---------- PUBLICATION CONTAINER ---------- */
+
+.publication-container {
+    max-width: 650px;
+    margin: 30px auto;
+    padding: 20px 22px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    position: relative;
+}
+
+/* ---------- PROFILE HEADER ---------- */
+
+.publication-container .profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Profile image */
+.publication-container .profile img {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #4a90e2;
+}
+
+/* Profile name */
+.publication-container .profile h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Created at */
+.publication-container .created-at span {
+    display: block;
+    font-size: 13px;
+    color: #777;
+}
+
+/* ---------- ACTIONS ---------- */
+
+.publication-container .actions {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    display: flex;
+    gap: 8px;
+    z-index: 20;
+}
+
+/* Update button */
+.publication-container .actions a {
+    padding: 6px 12px;
+    background: #4a90e2;
+    color: #fff;
+    font-size: 13px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: 0.25s;
+}
+
+.publication-container .actions a:hover {
+    background: #357abd;
+}
+
+/* Delete button */
+.publication-container .actions button {
+    padding: 6px 12px;
+    background: #d9534f;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.publication-container .actions button:hover {
+    background: #c9302c;
+}
+
+/* ---------- PUBLICATION CONTENT ---------- */
+
+.publication-container h2 {
+    font-size: 20px;
+    color: #222;
+    margin-top: 8px;
+}
+
+.publication-container p {
+    font-size: 15px;
+    color: #444;
+    line-height: 1.6;
+}
+
+/* ---------- PUBLICATION IMAGE ---------- */
+
+.publication-container img[alt="publication"] {
+    width: 100%;
+    max-height: 420px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-top: 10px;
+}
+
+/* ---------- HOVER EFFECT ---------- */
+
+.publication-container:hover {
+    transform: translateY(-3px);
+    transition: 0.3s ease;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+}
+
+/* ---------- STRETCHED LINK FIX ---------- */
+
+.publication-container .stretched-link {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
 }

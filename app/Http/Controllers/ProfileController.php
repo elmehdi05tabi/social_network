@@ -47,6 +47,7 @@ class ProfileController extends Controller
      */
     public function show(Profile $profile)
     {
+        $profile->load('publications')  ;
         return view('profiles.show',compact('profile')) ; 
     }
 

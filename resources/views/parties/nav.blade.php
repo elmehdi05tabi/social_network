@@ -1,11 +1,14 @@
 <nav>
     <ul>
-        <li><a href="">Home</a></li>
+        <li><a href="{{route('publications.index')}}">Publication</a></li>
         <li><a href="{{route('profiles.index')}}">Profiles</a></li>
         <li><a href="{{route('profiles.create')}}">Create Profile</a></li>
         @guest
         <li><a href="{{route('login.show')}}">Login</a></li>
         @endguest
+        @auth
+        <li><a href="{{route('publications.create')}}">Create Publication</a></li>
+        @endauth
     </ul>
     @auth 
     <div class="profile-connection">
