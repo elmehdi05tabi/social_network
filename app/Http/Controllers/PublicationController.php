@@ -7,16 +7,21 @@ use App\Models\Publication;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Mockery\Undefined;
+
 
 class PublicationController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    private const CACHE_KEY  = 'publications' ; 
     public function index()
     {
-        $publications = Publication::with('profile')->latest()->get(); 
+        $publications = Cache::remember(self::CACHE_KEY,86400,function(){
+            return Publication::with('profile')->latest()->get();
+        }) ;
         return view("publication.index",compact('publications')) ; 
     }
 
@@ -40,7 +45,8 @@ class PublicationController extends Controller
             $formFiald['image'] = "" ; 
         }
         $formFiald['profile_id'] = Auth::id();
-        Publication::create($formFiald); 
+        Publication::create($formFiald);
+        Cache::forget(self::CACHE_KEY);
         return to_route('publications.index')->with('success','The publication has been created successfully.');
     }
 
@@ -64,10 +70,11 @@ class PublicationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(PublicationRequest $request, ImageService $imageService ,Publication $publication)
+    public function update(PublicationRequest $request ,Publication $publication)
     {
         $formFiald = $request->validated() ; 
         $publication->fill($formFiald)->save() ; 
+        Cache::forget(self::CACHE_KEY);
         return to_route('publications.index')->with('success','Publication updated successfully.')  ;
     }
 
@@ -78,6 +85,7 @@ class PublicationController extends Controller
     {
         $this->authorize('delete',$publication) ; 
        $publication->delete() ; 
+        Cache::forget(self::CACHE_KEY);
        return to_route('publications.index')->with('success','Publication deleted successfully.'); 
     }
 }

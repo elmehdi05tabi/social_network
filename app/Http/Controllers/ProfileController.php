@@ -6,16 +6,21 @@ use App\Http\Requests\ProfileRequest;
 use App\Models\Profile;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
+    private const CACH_KEY = 'profiles'  ;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $profiles = Profile::paginate(9) ; 
+        $profiles = Cache::remember(self::CACH_KEY,120,function(){
+            return Profile::paginate(9); 
+        });
+        Cache::forget(self::CACH_KEY) ; 
         return view("profiles.index",compact('profiles')) ; 
     }
 
@@ -39,15 +44,19 @@ class ProfileController extends Controller
         $formField['image'] = $imageService->upload($request->file('image')) ; 
         Profile::create($formField) ;
         $profiles = Profile::paginate(9) ;
+        Cache::forget(self::CACH_KEY);
         return to_route('profiles.index',compact('profiles'))->with('success','Profile Is Good Created') ; 
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Profile $profile)
+    public function show(string $id)
     {
-        $profile->load('publications')  ;
+        $profile = Cache::remember('profile_'.$id,120,function()use($id){
+            return Profile::findOrFail($id) ; 
+        });
+        $profile->load('publications');
         return view('profiles.show',compact('profile')) ; 
     }
 
@@ -69,6 +78,7 @@ class ProfileController extends Controller
         $formField['password'] = Hash::make($formField['password']) ; 
         // update 
         $profile->fill($formField)->save();
+        Cache::forget(self::CACH_KEY);
         return to_route('profiles.index')->with('success','Profile is Updated') ; 
     }
 
@@ -80,6 +90,7 @@ class ProfileController extends Controller
         // dd($profile) ;
         $this->authorize('delete',$profile) ; 
         $profile->delete() ; 
+        Cache::forget(self::CACH_KEY);
         return to_route('profiles.index')->with('success','Profile Deleted') ; 
     }
 }
