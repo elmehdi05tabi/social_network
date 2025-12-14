@@ -8,16 +8,18 @@
         <a href="{{route('profiles.show',$publication->profile_id)}}" class="stretched-link"></a>
     </div>
     @auth
-    @if ($isAdmin)   
     <div class="actions">
+        @can('update',$publication)
         <a href="{{route('publications.edit',$publication->id)}}">Update</a>
+        @endcan
+        @can('delete',$publication)
         <form action="{{route('publications.destroy',$publication->id)}}" method="POST">
             @csrf
             @method("DELETE")
             <button onclick="return confirm('You Want Deleted This Publication')" >Delete</button>
         </form>
+        @endcan
     </div>
-    @endif
     @endauth
     <h2>{{$publication->title}}</h2>
     <p>{{$publication->body}}</p>

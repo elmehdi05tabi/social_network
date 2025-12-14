@@ -41,7 +41,7 @@ class PublicationController extends Controller
         }
         $formFiald['profile_id'] = Auth::id();
         Publication::create($formFiald); 
-        return to_route('publications.index')->with('success',Auth::user()->first_name.' '.Auth::user()->last_name.' Create New Post');
+        return to_route('publications.index')->with('success','The publication has been created successfully.');
     }
 
     /**
@@ -57,15 +57,18 @@ class PublicationController extends Controller
      */
     public function edit(Publication $publication)
     {
-        //
+        $this->authorize('update',$publication) ; 
+        return view('publication.edit',compact('publication')) ; 
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Publication $publication)
+    public function update(PublicationRequest $request, ImageService $imageService ,Publication $publication)
     {
-        //
+        $formFiald = $request->validated() ; 
+        $publication->fill($formFiald)->save() ; 
+        return to_route('publications.index')->with('success','Publication updated successfully.')  ;
     }
 
     /**
@@ -73,7 +76,8 @@ class PublicationController extends Controller
      */
     public function destroy(Publication $publication)
     {
+        $this->authorize('delete',$publication) ; 
        $publication->delete() ; 
-       return to_route('publications.index')->with('success','Publication is Deleted'); 
+       return to_route('publications.index')->with('success','Publication deleted successfully.'); 
     }
 }

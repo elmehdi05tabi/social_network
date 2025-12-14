@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
+Route::get('/',[ProfileController::class,'index'])->name('profile.index') ; 
 Route::resource('profiles',ProfileController::class) ;
 Route::resource('publications',PublicationController::class)  ; 
 Route::get('/login',[LoginController::class,'show'])->name('login.show'); 

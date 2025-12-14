@@ -23,6 +23,7 @@ class ProfileFactory extends Factory
             "email"=>fake()->email() ,
             "password"=>static::$password??Hash::make("password"),
             'bio'=>fake()->text(200),
+            "image"=>"profile/profile.png"
         ];
     }
 }

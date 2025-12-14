@@ -7,7 +7,7 @@
                 {{$message}}
             </div>
         @enderror
-        <textarea type="text" placeholder="Body" name="body"></textarea value="{{old('body')}}">
+        <textarea type="text" placeholder="Body" name="body">{{old('body')}}</textarea >
           @error('body')
             <div class="error">
                 {{$message}}

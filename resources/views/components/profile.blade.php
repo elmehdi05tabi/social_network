@@ -9,13 +9,20 @@
         </div>
         <a href="{{route('profiles.show',$profile->id)}}" class="stretched-link"></a>
     </div>
+    @auth
     <div class="actions" style="z-index: 10;position: relative;">
+        @can('update',$profile)
         <a href="{{route('profiles.edit',$profile->id)}}">Update</a>
+        @endcan
+        @can('delete',$profile)
+            
         <form action="{{route('profiles.destroy',$profile->id)}}" method="POST" 
             class="action-form">
             @method("DELETE")
             @csrf
             <button type="submit" onclick="return confirm('You want Delete ' $profile->first_name)">Delete</button>
         </form>
+        @endcan
     </div>
+    @endauth
 </div>

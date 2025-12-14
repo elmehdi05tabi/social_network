@@ -21,6 +21,8 @@ nav {
     justify-content: space-between;
     top: 0;
     z-index: 100;
+    position: fixed;
+    top: 0;
 }
 
 nav ul {
@@ -51,7 +53,7 @@ nav ul li a:hover {
 /* ------------------------------------- */
 section {
     max-width: 1200px;
-    margin: 40px auto;
+    margin: 60px auto;
     padding: 20px;
 }
 section h2 {
@@ -262,7 +264,7 @@ form textarea:focus {
 /* ------------------------------- */
 .alert {
     max-width: 500px;
-    margin: 20px auto;
+    margin: 100px auto;
     padding: 15px 20px;
     border-radius: 10px;
     font-size: 15px;

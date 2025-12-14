@@ -16,7 +16,7 @@ class LoginController extends Controller
         $credentials = ['email'=>$email,'password'=>$password] ;
         if(Auth::attempt($credentials)) {
             $request->session()->regenerate() ; 
-            return to_route('profiles.index')->with('success','Good Connection') ; 
+            return to_route('publications.index')->with('success','Good Connection') ; 
         }else {
             return back()->withErrors([
                 'email'=>'Email Or Password Increct' 
@@ -27,6 +27,6 @@ class LoginController extends Controller
         Auth::logout();
         $request->session()->invalidate() ;
         $request->session()->regenerateToken() ; 
-        return to_route('profiles.index')->with('success','Your Logout') ; 
+        return to_route('publications.index')->with('success','Your Logout') ; 
     }
 }

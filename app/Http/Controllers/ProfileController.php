@@ -56,6 +56,7 @@ class ProfileController extends Controller
      */
     public function edit(Profile $profile)
     {
+        $this->authorize('update',$profile) ; 
         return view('profiles.edit',compact('profile')) ;
     }
 
@@ -66,7 +67,6 @@ class ProfileController extends Controller
     {
         $formField = $request->validated() ; 
         $formField['password'] = Hash::make($formField['password']) ; 
-        $formField['image'] = $imageService->upload($request->file('image')) ; 
         // update 
         $profile->fill($formField)->save();
         return to_route('profiles.index')->with('success','Profile is Updated') ; 
@@ -78,6 +78,7 @@ class ProfileController extends Controller
     public function destroy(Profile $profile)
     {
         // dd($profile) ;
+        $this->authorize('delete',$profile) ; 
         $profile->delete() ; 
         return to_route('profiles.index')->with('success','Profile Deleted') ; 
     }
