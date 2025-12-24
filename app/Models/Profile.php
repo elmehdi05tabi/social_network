@@ -17,7 +17,8 @@ class Profile extends Authenticatable
         'email',
         'bio',
         'image',
-        'password'
+        'password',
+        'email_verified_at'
     ];
     public function publications(): HasMany {
         return $this->hasMany(Publication::class,'profile_id') ; 

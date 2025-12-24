@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicationController;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/',[ProfileController::class,'index'])->name('profile.index') ; 
+Route::get('/verify_email/{hash}',[ProfileController::class,'verify_email']) ; 
 Route::resource('profiles',ProfileController::class) ;
 Route::resource('publications',PublicationController::class)  ; 
 Route::get('/login',[LoginController::class,'show'])->name('login.show'); 

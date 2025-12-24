@@ -42,7 +42,7 @@ class PublicationController extends Controller
         if($request->hasFile('image')) {
             $formFiald['image'] = $imageService->upload($request->file('image')) ; 
         }else {
-            $formFiald['image'] = "" ; 
+            $formFiald['image']=""; 
         }
         $formFiald['profile_id'] = Auth::id();
         Publication::create($formFiald);
@@ -62,6 +62,7 @@ class PublicationController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(Publication $publication)
+
     {
         $this->authorize('update',$publication) ; 
         return view('publication.edit',compact('publication')) ; 
@@ -70,10 +71,12 @@ class PublicationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(PublicationRequest $request ,Publication $publication)
+    public function update(PublicationRequest $request ,Publication $publication,ImageService $imageService)
     {
         $formFiald = $request->validated() ; 
-        $publication->fill($formFiald)->save() ; 
+        if($request->hasFile('image')) {
+            $formFiald['image'] = $imageService->upload($request->file('image')) ; 
+        }
         Cache::forget(self::CACHE_KEY);
         return to_route('publications.index')->with('success','Publication updated successfully.')  ;
     }

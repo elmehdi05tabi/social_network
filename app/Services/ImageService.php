@@ -10,10 +10,9 @@ class ImageService  {
             return 'profile/profile.png' ; 
         }
         //& validation image 
-        validator([
-            'image' => $image ,
-               "image" => 'image|mimes:png,jpg',
-        ])->validate();
-        return $image->store($folder,'public') ;
+        validator(
+            ['image' => $image] ,
+            ["image" => 'image|mimes:png,jpg',])->validate();
+        return $image->store($folder,'public');
     }
 }

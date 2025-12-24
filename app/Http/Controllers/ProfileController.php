@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileRequest;
+use App\Mail\ProfileMail;
 use App\Models\Profile;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class ProfileController extends Controller
 {
@@ -42,12 +44,29 @@ class ProfileController extends Controller
         $formField['password'] = Hash::make($formField['password']) ;
         // for image 
         $formField['image'] = $imageService->upload($request->file('image')) ; 
-        Profile::create($formField) ;
-        $profiles = Profile::paginate(9) ;
+        $profile = Profile::create($formField) ;
         Cache::forget(self::CACH_KEY);
-        return to_route('profiles.index',compact('profiles'))->with('success','Profile Is Good Created') ; 
+        Mail::to('elmehditabi0@gmail.com')->send(new ProfileMail($profile) );
+        return to_route('profiles.index')->with('success','Profile Is Good Created') ; 
     }
+    public function verify_email(string $hash) {
+        [$created_at,$id] = explode('///',base64_decode($hash)) ; 
+        $profile = Profile::findOrfail($id) ; 
+        // dd($profile->created_at->toDateTimeString());
+        if($profile->created_at->toDateTimeString() !== $created_at) {
+            abort(403) ; 
+        }
+        if($profile->email_verified_at !==NULL) {
+            return response('Compte Déaja Activé') ; 
+        }
+        $name = $profile->first_name.' '.$profile->last_name ; 
+        $email = $profile->email ; 
+        $profile->fill([
+                'email_verified_at' => date('Y-m-d h-s-i') 
+                ])->save() ; 
+                return view('profiles.email_verifiad',compact('name','email')) ; 
 
+    }
     /**
      * Display the specified resource.
      */

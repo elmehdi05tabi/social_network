@@ -23,8 +23,8 @@ class PublicationRequest extends FormRequest
     {
         return [
             "title"=>'required|between:3,200',
-            "body"=>'required',
-            "image"=>'image|mimes:png,jpg|max:10240'
+            "body"=>'required|max:1000',
+            "image"=>'image|mimes:png,jpg,webp|max:10240'
         ];
     }
 }

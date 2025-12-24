@@ -439,7 +439,7 @@ img.profile-info-img {
 }
 
 /* Update button */
-.publication-container .actions a {
+.publication-container .actions button:first-child {
     padding: 6px 12px;
     background: #4a90e2;
     color: #fff;
@@ -449,7 +449,7 @@ img.profile-info-img {
     transition: 0.25s;
 }
 
-.publication-container .actions a:hover {
+.publication-container .actions button:first-child:hover {
     background: #357abd;
 }
 
