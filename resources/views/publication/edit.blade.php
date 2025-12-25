@@ -20,6 +20,6 @@
                 {{$message}}
             </div>
         @enderror
-        <button type="submit">Create Publication</button>
+        <button type="submit">Update </button>
     </form>
 </x-master>

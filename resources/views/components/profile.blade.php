@@ -6,8 +6,8 @@
         <div class="card-text">
             <h3>{{$profile->first_name." ".$profile->last_name}}</h3>
             <p>{{Str::limit($profile->bio,20)}}</p>
+            <a href="{{route('profiles.show',$profile->id)}}">Show Profile</a>
         </div>
-        <a href="{{route('profiles.show',$profile->id)}}" class="stretched-link"></a>
     </div>
     @auth
     <div class="actions" style="z-index: 10;position: relative;">

@@ -13,9 +13,14 @@ use Mockery\Undefined;
 
 class PublicationController extends Controller
 {
+    public function __construct()
+    {
+       $this->middleware('auth') ; 
+    }
     /**
      * Display a listing of the resource.
      */
+
     private const CACHE_KEY  = 'publications' ; 
     public function index()
     {
@@ -78,6 +83,7 @@ class PublicationController extends Controller
             $formFiald['image'] = $imageService->upload($request->file('image')) ; 
         }
         Cache::forget(self::CACHE_KEY);
+        $publication->fill($formFiald)->save() ; 
         return to_route('publications.index')->with('success','Publication updated successfully.')  ;
     }
 

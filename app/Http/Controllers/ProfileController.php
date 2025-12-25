@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Mail;
 class ProfileController extends Controller
 {
     private const CACH_KEY = 'profiles'  ;
+    public function __construct() {
+        $this->middleware('auth')->except('create','store','verify_email') ; 
+    }
     /**
      * Display a listing of the resource.
      */
@@ -44,10 +47,14 @@ class ProfileController extends Controller
         $formField['password'] = Hash::make($formField['password']) ;
         // for image 
         $formField['image'] = $imageService->upload($request->file('image')) ; 
-        $profile = Profile::create($formField) ;
         Cache::forget(self::CACH_KEY);
-        Mail::to('elmehditabi0@gmail.com')->send(new ProfileMail($profile) );
-        return to_route('profiles.index')->with('success','Profile Is Good Created') ; 
+        $profile = Profile::create($formField);
+        Mail::to('elmehditabi0@gmail.com')->send(new ProfileMail($profile));
+        if($profile->email_verified_at!==NULL) {
+            return to_route('profiles.index')->with('success','Your profile has been created.') ; 
+        }else {
+            return view('profiles.verification') ;
+        } ; 
     }
     public function verify_email(string $hash) {
         [$created_at,$id] = explode('///',base64_decode($hash)) ; 
@@ -59,12 +66,10 @@ class ProfileController extends Controller
         if($profile->email_verified_at !==NULL) {
             return response('Compte Déaja Activé') ; 
         }
-        $name = $profile->first_name.' '.$profile->last_name ; 
-        $email = $profile->email ; 
         $profile->fill([
                 'email_verified_at' => date('Y-m-d h-s-i') 
                 ])->save() ; 
-                return view('profiles.email_verifiad',compact('name','email')) ; 
+                return to_route('login.show')->with('success','Account created. Please log in.') ; 
 
     }
     /**
@@ -94,7 +99,10 @@ class ProfileController extends Controller
     public function update(ProfileRequest $request, Profile $profile ,ImageService $imageService)
     {
         $formField = $request->validated() ; 
-        $formField['password'] = Hash::make($formField['password']) ; 
+        $formField['password'] = Hash::make($formField['password']) ;
+        if($request->hasFile('image')) {
+            $formField['image'] = $imageService->upload($request->file('image')) ; 
+        } 
         // update 
         $profile->fill($formField)->save();
         Cache::forget(self::CACH_KEY);

@@ -13,6 +13,6 @@ class PublicationSeeder extends Seeder
      */
     public function run(): void
     {
-        Publication::factory(200)->create() ; 
+        Publication::factory(10)->create() ; 
     }
 }

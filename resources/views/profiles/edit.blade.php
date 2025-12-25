@@ -8,7 +8,7 @@
                 {{$message}}
             </div>
         @enderror
-        <input type="text" placeholder="Last Name" name="last_name" value="{{old('last_name',$profile->first_name)}}">
+        <input type="text" placeholder="Last Name" name="last_name" value="{{old('last_name',$profile->last_name)}}">
           @error('last_name')
             <div class="error">
                 {{$message}}

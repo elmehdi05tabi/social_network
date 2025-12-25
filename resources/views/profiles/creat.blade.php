@@ -37,7 +37,7 @@
                 {{$message}}
             </div>
         @enderror
-        <input type="password" placeholder="Password" name="password_confirmation">
+        <input type="password" placeholder="Confirme Password" name="password_confirmation">
         <button type="submit">Create Profile</button>
     </form>
 </x-master>
